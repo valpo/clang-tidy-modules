@@ -30,7 +30,7 @@ Now it is time to integrate these modules:
 ```
 cd
 cd llvm/tools/clang/tools/extra/clang-tidy
-git checkout https://github.com/valpo/clang-tidy-modules.git valpo
+git clone https://github.com/valpo/clang-tidy-modules.git valpo
 ```
 Unfortunately there is no easy way to add a new module to clang-tidy, you have to edit 
 4 different files (make sure you are still in llvm/tools/clang/tools/extra/clang-tidy):
