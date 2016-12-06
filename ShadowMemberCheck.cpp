@@ -23,12 +23,10 @@ namespace tidy {
 namespace valpo {
 
 void ShadowMemberCheck::registerMatchers(MatchFinder *Finder) {
-  // FIXME: Add matchers.
   Finder->addMatcher(fieldDecl().bind("field"), this);
 }
 
 void ShadowMemberCheck::check(const MatchFinder::MatchResult &Result) {
-  // FIXME: Add callback implementation.
   const auto *field = Result.Nodes.getNodeAs<FieldDecl>("field");
   if (field == nullptr) {
       diag(SourceLocation(),"no match", DiagnosticIDs::Fatal);
@@ -41,9 +39,8 @@ void ShadowMemberCheck::check(const MatchFinder::MatchResult &Result) {
       }
       fieldClass->forallBases(
           [field,this](const CXXRecordDecl *baseDef){
-            std::cout << "  base: " << baseDef->getName().str() << '\n';
             for (const auto& f : baseDef->fields()) {
-                if (f->getName() == field->getName()) {
+                if (f->getName() == field->getName() && f->getAccess() != AS_private) {
                     diag(field->getLocation(), "field %0 shadows member in base class %1") << field << baseDef;
                     diag(f->getLocation(), "previously declared here", DiagnosticIDs::Note) << f;
                 }
