@@ -31,9 +31,11 @@ Now it is time to integrate these modules:
 cd
 cd llvm/tools/clang/tools/extra/clang-tidy
 git clone https://github.com/valpo/clang-tidy-modules.git valpo
+valpo/integrate_module.sh
 ```
-Unfortunately there is no easy way to add a new module to clang-tidy, you have to edit 
-4 different files (make sure you are still in llvm/tools/clang/tools/extra/clang-tidy):
+
+The last line applies a patch to clang tidy which integrates the valpo module. Basically 
+it changes the following files in llvm/tools/clang/tools/extra/clang-tidy:
 
 1. CMakeList.txt: add a line ```add_subdirectory(valpo)``` just below the line ```add_subdirectory(utils)```
 2. plugin/CMakeLists.txt: add a line ```clangTidyValpoModule``` just below ```clangTidyMiscModule```
@@ -46,8 +48,6 @@ Unfortunately there is no easy way to add a new module to clang-tidy, you have t
       ValpoModuleAnchorSource;
   ```
   just below the line ```GoogleModuleAnchorSource;```
-
-Note for me: I should add a script just doing the above steps. 
 
 ### check if it works
 Recompile clang-tidy:
