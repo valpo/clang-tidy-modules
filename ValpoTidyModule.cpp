@@ -10,7 +10,9 @@
 #include "../ClangTidy.h"
 #include "../ClangTidyModule.h"
 #include "../ClangTidyModuleRegistry.h"
+#include "NonConstCharPtrArgCheck.h"
 #include "ShadowMemberCheck.h"
+#include "ShortMemberNamesCheck.h"
 
 namespace clang {
 namespace tidy {
@@ -19,7 +21,11 @@ namespace valpo {
 class ValpoModule : public ClangTidyModule {
 public:
   void addCheckFactories(ClangTidyCheckFactories &CheckFactories) override {
+    CheckFactories.registerCheck<NonConstCharPtrArgCheck>(
+        "valpo-non-const-char-ptr-arg");
     CheckFactories.registerCheck<ShadowMemberCheck>("valpo-shadow-member");
+    CheckFactories.registerCheck<ShortMemberNamesCheck>(
+        "valpo-short-member-names");
   }
 };
 
